@@ -1,0 +1,103 @@
+#include <iostream>
+using namespace std;
+
+class cashRegister {
+private:
+    int cashOnHand;
+
+public:
+    cashRegister() {
+        cashOnHand = 500;
+    }
+
+    cashRegister(int cash) {
+        cashOnHand = cash;
+    }
+
+    int getCurrentBalance() {
+        return cashOnHand;
+    }
+
+    void acceptAmount(int amount) {
+        cashOnHand += amount;
+    }
+};
+
+class dispenserType {
+private:
+    int numberOfItems;
+    int cost;
+
+public:
+    dispenserType() {
+        numberOfItems = 50;
+        cost = 50;
+    }
+
+    dispenserType(int items, int itemCost) {
+        numberOfItems = items;
+        cost = itemCost;
+    }
+
+    int getNoOfItems() {
+        return numberOfItems;
+    }
+
+    int getCost() {
+        return cost;
+    }
+
+    void makeSale() {
+        if (numberOfItems > 0) {
+            numberOfItems--;
+        }
+    }
+};
+
+void showSelection() {
+    cout << "1. Конфеты" << endl;
+    cout << "2. Чипсы" << endl;
+    cout << "3. Жевательная резинка" << endl;
+    cout << "4. Печенье" << endl;
+}
+
+void sellProduct(dispenserType& dispenser, cashRegister& register) {
+    int choice;
+    cout << "Выберите товар: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            cout << "Вы выбрали конфеты." << endl;
+            break;
+        case 2:
+            cout << "Вы выбрали чипсы." << endl;
+            break;
+        case 3:
+            cout << "Вы выбрали жевательную резинку." << endl;
+            break;
+        case 4:
+            cout << "Вы выбрали печенье." << endl;
+            break;
+        default:
+            cout << "Некорректный выбор." << endl;
+            return;
+    }
+
+    int cost = dispenser.getCost();
+    cout << "Стоимость товара: " << cost << " рублей." << endl;
+
+    int amount;
+    cout << "Внесите деньги: ";
+    cin >> amount;
+
+    if (amount >= cost) {
+        dispenser.makeSale();
+        register.acceptAmount(cost);
+        cout << "Товар продан. Сдача: " << (amount - cost) << " рублей." << endl;
+    } else {
+        cout << "Недостаточно денег." << endl;
+    }
+
+    return 0;
+}
